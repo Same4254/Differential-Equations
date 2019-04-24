@@ -60,7 +60,7 @@ public class Vector {
 	}
 	
 	public void setMagnitude(double magnitude) {
-		this.magnitude = magnitude;
+		this.magnitude = Math.abs(magnitude);
 		this.xComp = magnitude * Math.cos(angle);
 		this.yComp = magnitude * Math.sin(angle);
 	}
@@ -100,7 +100,7 @@ public class Vector {
 				
 //				g2d.fillRect(400, 400, 5, 5);
 				
-				vector.getRenderer().render(g2d, 100, 1);
+				vector.getRenderer().renderArrow(g2d, 100, 1);
 			}
 		}
 		

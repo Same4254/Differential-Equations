@@ -1,23 +1,19 @@
 package Util;
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class VectorRenderer {
 	private Vector vector;
 	
-	private Color color;
 	private int x, y;
 	private int endX, endY;
 	
 	public VectorRenderer(Vector vector) {
 		this.vector = vector;
-		color = Color.BLACK;
 	}
 	
-	public void render(Graphics2D g2d, int maxLength, double maxMagnitude) {
+	public void renderArrow(Graphics2D g2d, int maxLength, double maxMagnitude) {
 		g2d.setStroke(new BasicStroke(2));
-		g2d.setColor(color);
 		
 		calculateEndX(maxLength, maxMagnitude);
 		calculateEndY(maxLength, maxMagnitude);
@@ -31,10 +27,16 @@ public class VectorRenderer {
 		g2d.drawLine(endX, endY, (int) (endX - ((renderMagnitude * .2) * Math.cos(vector.getAngle() + (Math.PI / 4)))), 
 								 (int) (endY + ((renderMagnitude * .2) * Math.sin(vector.getAngle() + (Math.PI / 4)))));
 	}
-
-	public Color getColor() { return color; }
-	public void setColor(Color color) { this.color = color; }
 	
+	public void renderLine(Graphics2D g2d, int maxLength, double maxMagnitude) {
+		g2d.setStroke(new BasicStroke(2));
+		
+		calculateEndX(maxLength, maxMagnitude);
+		calculateEndY(maxLength, maxMagnitude);
+		
+		g2d.drawLine(x, y, endX, endY);
+	}
+
 	private void calculateEndX(int maxLength, double maxMagnitude) { 
 		this.endX = (int) (x + (Math.cos(vector.getAngle()) * (maxLength * (vector.getMagnitude() / maxMagnitude)))); 
 	}
@@ -47,4 +49,7 @@ public class VectorRenderer {
 	
 	public int getY() { return y; }
 	public void setY(int y) { this.y = y; }
+
+	public int getEndX() { return endX; }
+	public int getEndY() { return endY; }
 }

@@ -7,7 +7,6 @@ import java.awt.event.ComponentEvent;
 import java.util.function.Function;
 
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import Util.Vector;
@@ -88,7 +87,7 @@ public class VectorField extends JPanel {
 	public void render(Graphics2D g2d) {
 		for(Vector[] vectors : this.vectors)
 		for(Vector vector : vectors)
-			vector.getRenderer().render(g2d, maxPixelMagnitude, maxMagnitude);
+			vector.getRenderer().renderArrow(g2d, maxPixelMagnitude, maxMagnitude);
 	}
 	
 	@Override
