@@ -1,2 +1,2 @@
-# Differential-Equations
-My adventures of coding Differential Equations
+# Mathematics
+My adventures of coding different mathematical models
