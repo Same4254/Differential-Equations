@@ -1,5 +1,7 @@
 package MagicSquare;
 
+import java.util.ArrayList;
+
 public class MagicSquare {
 	public static long square(long num) {
 //		return num * num;
@@ -91,18 +93,21 @@ public class MagicSquare {
 	 * This is the tempting shotgun approach to this problem, where there is a for loop for every variable. 
 	 * There are 9 for-loops, making this EXTREMELY slow. 
 	 */
-	public static void bad() {
+	public static void uniquelyBad() {
+		ArrayList<ArrayList<Integer>> squares = new ArrayList<>();
+		
 		int max = 20;
 		
-		for(long a = 1; a < max; a++) {
-		for(long b = 1; b < max; b++) {
-		for(long c = 1; c < max; c++) {
-		for(long d = 1; d < max; d++) {
-		for(long e = 1; e < max; e++) {
-		for(long f = 1; f < max; f++) {
-		for(long g = 1; g < max; g++) {
-		for(long h = 1; h < max; h++) {
-		for(long i = 1; i < max; i++) {
+		for(int a = 1; a < max; a++) {
+		for(int b = 1; b < max; b++) {
+			System.out.println("B: " + b);
+		for(int c = 1; c < max; c++) {
+		for(int d = 1; d < max; d++) {
+		for(int e = 1; e < max; e++) {
+		for(int f = 1; f < max; f++) {
+		for(int g = 1; g < max; g++) {
+		for(int h = 1; h < max; h++) {
+		for(int i = 1; i < max; i++) {
 			
 			if(a == b || a == c || a == d || a == e || a == f || a == g || a == h || a == i ||
 					     b == c || b == d || b == e || b == f || b == g || b == h || b == i ||
@@ -114,7 +119,79 @@ public class MagicSquare {
 					     h == i)
 				continue;
 			
-			long n = a + b + c;
+			int n = a + b + c;
+			
+			if(d + e + f != n || g + h + i != n || a + d + g != n || b + e + h != n || c + f + i != n || c + e + g != n || a + e + i != n)
+				continue;
+			
+			ArrayList<Integer> square = new ArrayList<>();
+			square.add(a);
+			square.add(b);
+			square.add(c);
+			square.add(d);
+			square.add(e);
+			square.add(f);
+			square.add(g);
+			square.add(h);
+			square.add(i);
+			
+			boolean add = true;
+			for(int j = 0; j < squares.size(); j++) {
+				ArrayList<Integer> temp = squares.get(j);
+				
+				boolean different = false;
+				for(Integer integer : temp) {
+					if(!square.contains(integer))
+						different = true;
+				}
+				
+				if(!different) {
+					add = false;
+					break;
+				}
+			}
+			
+			if(add)
+				squares.add(square);
+		}}}}}}}}}
+		
+		for(int i = 0; i < squares.size(); i++) {
+			ArrayList<Integer> square = squares.get(i);
+			
+			System.out.println("-------------");
+			System.out.println("n = " + (square.get(0) + square.get(1) + square.get(2)));
+			System.out.println(square.get(0) + ", " + square.get(1) + ", " + square.get(2) + ", ");
+			System.out.println(square.get(3) + ", " + square.get(4) + ", " + square.get(5) + ", ");
+			System.out.println(square.get(6) + ", " + square.get(7) + ", " + square.get(8) + ", ");
+		}
+	}
+	
+	public static void bad() {
+		ArrayList<ArrayList<Integer>> squares = new ArrayList<>();
+		
+		int max = 10;
+		
+		for(int a = 1; a < max; a++) {
+		for(int b = 1; b < max; b++) {
+		for(int c = 1; c < max; c++) {
+		for(int d = 1; d < max; d++) {
+		for(int e = 1; e < max; e++) {
+		for(int f = 1; f < max; f++) {
+		for(int g = 1; g < max; g++) {
+		for(int h = 1; h < max; h++) {
+		for(int i = 1; i < max; i++) {
+			
+			if(a == b || a == c || a == d || a == e || a == f || a == g || a == h || a == i ||
+					     b == c || b == d || b == e || b == f || b == g || b == h || b == i ||
+					     c == d || c == e || c == f || c == g || c == h || c == i ||
+					     d == e || d == f || d == g || d == h || d == i || 
+					     e == f || e == g || e == h || e == i ||
+					     f == g || f == h || f == i ||
+					     g == h || g == i ||
+					     h == i)
+				continue;
+			
+			int n = a + b + c;
 			
 			if(d + e + f != n || g + h + i != n || a + d + g != n || b + e + h != n || c + f + i != n || c + e + g != n || a + e + i != n)
 				continue;
@@ -124,11 +201,10 @@ public class MagicSquare {
 			System.out.println(a + ", " + b + ", " + c + ", ");
 			System.out.println(d + ", " + e + ", " + f + ", ");
 			System.out.println(g + ", " + h + ", " + i + ", ");
-			
 		}}}}}}}}}
 	}
 	
 	public static void main(String[] args) {
-		narrowed();
+		uniquelyBad();
 	}
 }
