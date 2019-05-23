@@ -19,8 +19,8 @@ public class Pendulum {
 		accelerationVector = new Vector(0, 0);
 		velocityVector = new Vector(0, 0);
 		
-		gravity = 2;
-		airRessistence = 0;
+		gravity = 5;
+		airRessistence = 0.1;
 		
 		angularVelocity = 0;
 	}
@@ -33,8 +33,8 @@ public class Pendulum {
 		 *         | \
 		 *         |  \
 		 *         |   \
-		 *         | O \
-		 *         |      \
+		 *         | O  \
+		 *         |     \
 		 * 
 		 * To the right is positive, and to the left is negative
 		 * Unit: Radians
