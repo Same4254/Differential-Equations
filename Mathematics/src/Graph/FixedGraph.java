@@ -43,14 +43,16 @@ public class FixedGraph extends JPanel {
 			}
 		});
 	}
-	
-	private void drawGrid(Graphics2D g2d) {
+
+	private void calculateScale() { 
 		scaleX = ((double) getWidth()) / (Math.abs(maxX - minX));
 		scaleY = ((double) getHeight()) / (Math.abs(maxY - minY));
 		
 		originX = (int) -(minX * scaleX);
 		originY = (int) (maxY * scaleY);
-		
+	}
+	
+	private void drawGrid(Graphics2D g2d) {
 		g2d.drawLine(originX, 0, originX, getHeight());
 		g2d.drawLine(0, originY, getWidth(), originY);
 	}
@@ -122,8 +124,9 @@ public class FixedGraph extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		Graphics2D g2d = (Graphics2D) g;
+		
+		calculateScale();
 		drawGrid(g2d);
 		drawFunctions(g2d);
 	}
@@ -188,7 +191,7 @@ public class FixedGraph extends JPanel {
 		graph.minY = -5;
 		graph.maxY =  5;
 		
-		graph.functions.add(new GraphFunction(x -> { return Math.cos(x); }));
+		graph.functions.add(new GraphFunction(x -> { return Math.sin(4 * x) * Math.cos(.5 * x); }));
 		
 		frame.add(graph);
 		
