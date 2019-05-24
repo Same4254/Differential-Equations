@@ -160,15 +160,49 @@ public class MagicSquare {
 			
 			System.out.println("-------------");
 			System.out.println("n = " + (square.get(0) + square.get(1) + square.get(2)));
-			System.out.println(square.get(0) + ", " + square.get(1) + ", " + square.get(2) + ", ");
-			System.out.println(square.get(3) + ", " + square.get(4) + ", " + square.get(5) + ", ");
-			System.out.println(square.get(6) + ", " + square.get(7) + ", " + square.get(8) + ", ");
+			
+			System.out.print(square.get(0) + " " + square.get(1) + " " + square.get(2));
+			System.out.print(" | ");
+			
+			System.out.print("x" + (square.get(0) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(0) - square.get(4)) + " ");
+			
+			System.out.print("x" + (square.get(1) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(1) - square.get(4)) + " ");
+			
+			System.out.print("x" + (square.get(2) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(2) - square.get(4)) + "\n");
+			
+			//*******
+			System.out.print(square.get(3) + " " + square.get(4) + " " + square.get(5));
+			
+			System.out.print(" | ");
+			
+			System.out.print("x" + (square.get(3) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(3) - square.get(4)) + " ");
+			
+			System.out.print(" x  ");
+			
+			System.out.print("x" + (square.get(5) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(5) - square.get(4)) + "\n");
+
+			//******
+			System.out.print(square.get(6) + " " + square.get(7) + " " + square.get(8));
+			
+			System.out.print(" | ");
+			
+			System.out.print("x" + (square.get(6) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(6) - square.get(4)) + " ");
+			
+			System.out.print("x" + (square.get(7) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(7) - square.get(4)) + " ");
+			
+			System.out.print("x" + (square.get(8) > square.get(4) ? "+" : "-") );
+			System.out.print(Math.abs(square.get(8) - square.get(4)) + "\n");
 		}
 	}
 	
 	public static void bad() {
-		ArrayList<ArrayList<Integer>> squares = new ArrayList<>();
-		
 		int max = 10;
 		
 		for(int a = 1; a < max; a++) {
