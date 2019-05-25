@@ -4,8 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -14,34 +12,36 @@ import javax.swing.JPanel;
 
 public class FixedGraph extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static final double dx = 0.001;
+	protected static final double dx = 0.001;
 	
-	private ArrayList<GraphFunction> functions;
+	protected ArrayList<GraphFunction> functions;
 	
-	private double minX, minY;
-	private double maxX, maxY;
+	protected double minX, minY;
+	protected double maxX, maxY;
 	
 	//Pixel per Coordinate
 	private double scaleX, scaleY;
 	
 	private int originX, originY;
 	
+	protected double tickInterval;
+	
 	public FixedGraph() {
 		functions = new ArrayList<>(); 
 		
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				super.mouseReleased(e);
-				
-				System.out.println("---------");
-				
-				Point2D.Double coords = pixelToCoords(e.getPoint());
-				System.out.println("Coordinates: " + coords);
-				System.out.println("Pixels: " + coordsToPixel(coords));
-				System.out.println("Mouse: " + e.getPoint());
-			}
-		});
+//		addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseReleased(MouseEvent e) {
+//				super.mouseReleased(e);
+//				
+//				System.out.println("---------");
+//				
+//				Point2D.Double coords = pixelToCoords(e.getPoint());
+//				System.out.println("Coordinates: " + coords);
+//				System.out.println("Pixels: " + coordsToPixel(coords));
+//				System.out.println("Mouse: " + e.getPoint());
+//			}
+//		});
 	}
 
 	private void calculateScale() { 
@@ -55,6 +55,26 @@ public class FixedGraph extends JPanel {
 	private void drawGrid(Graphics2D g2d) {
 		g2d.drawLine(originX, 0, originX, getHeight());
 		g2d.drawLine(0, originY, getWidth(), originY);
+		
+		for(double i = (int) minX; i <= maxX; i += tickInterval) {
+			if(i == 0)
+				continue;
+			
+			Point tickPoint = coordsToPixel(i, 0);
+			
+			g2d.drawLine(tickPoint.x, tickPoint.y - 10, tickPoint.x, tickPoint.y + 10);
+			g2d.drawString("" + i, tickPoint.x - 2, tickPoint.y + 25);
+		}
+		
+		for(double i = (int) minY; i <= maxY; i += tickInterval) {
+			if(i == 0)
+				continue;
+			
+			Point tickPoint = coordsToPixel(0, i);
+			
+			g2d.drawLine(tickPoint.x - 10, tickPoint.y, tickPoint.x + 10, tickPoint.y);
+			g2d.drawString("" + i, tickPoint.x + 15, tickPoint.y + 4);
+		}
 	}
 	
 	private void drawFunctions(Graphics2D g2d) {
@@ -92,18 +112,6 @@ public class FixedGraph extends JPanel {
 		}
 	}
 	
-	private void calculateFunctions() {
-		for(int i = 0; i < functions.size(); i++) {
-			GraphFunction function = functions.get(i);
-			function.getShape().reset();
-			
-			for(double x = minX; x <= maxX; x += dx) {
-				double y = function.getFunction().apply(x);
-				function.getShape().lineTo(x, y);
-			}
-		}
-	}
-
 	//************ Coordinate Conversions
 	public Point2D.Double pixelToCoords(int x, int y) {
 		return new Point2D.Double(minX + (x / scaleX), maxY - (y / scaleY));
@@ -180,18 +188,30 @@ public class FixedGraph extends JPanel {
 		repaint();
 	}
 	
+	public void setTickInterval(double tickInterval) { this.tickInterval = tickInterval; }
+
 	public static void main(String[] args) {
+//		double multiple = Math.PI / 4.0;
+//		
+//		double num = Math.PI;
+//		
+//		if (num % multiple == 0)
+//			System.out.println("OK");
+//		num = num + (multiple - num % multiple);
+//		System.out.println(num / Math.PI);
+		
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 500);
 		
-		FixedGraph graph = new FixedGraph();
+		DraggableGraph graph = new DraggableGraph();
 		graph.minX = -5;
 		graph.maxX =  5;
 		graph.minY = -5;
 		graph.maxY =  5;
+		graph.tickInterval = 1;
 		
-		graph.functions.add(new GraphFunction(x -> { return Math.sin(4 * x) * Math.cos(.5 * x); }));
+		graph.functions.add(new GraphFunction(x -> { return 1.0 / x; }));
 		
 		frame.add(graph);
 		

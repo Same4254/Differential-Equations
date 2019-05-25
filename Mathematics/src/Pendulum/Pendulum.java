@@ -1,28 +1,23 @@
 package Pendulum;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import Util.Vector;
 
 public class Pendulum {
 	private Vector wireVector, accelerationVector, velocityVector;
-	private double gravity, airRessistence;
+	private double gravity, airResistance;
 	private double angularAcceleration, angularVelocity;
+	private double angle;
+	
+	private double initialAngle, initialVelocity;
 	
 	public Pendulum() {
 		wireVector = new Vector(1, 0);
+//		wireVector.setAngle(2 * Math.PI);
+		
 		accelerationVector = new Vector(0, 0);
 		velocityVector = new Vector(0, 0);
-		
-		gravity = 5;
-		airRessistence = 0.1;
-		
-		angularVelocity = 0;
 	}
 	
 	public void update(double timeStep) {
@@ -39,7 +34,8 @@ public class Pendulum {
 		 * To the right is positive, and to the left is negative
 		 * Unit: Radians
 		 */
-		double angle = wireVector.getAngle() - ((3.0 * Math.PI) / 2.0) ;
+		
+		angle = wireVector.getAngle() - ((3.0 * Math.PI) / 2.0);
 		
 		//Update 
 		accelerationVector.setMagnitude(gravity * Math.sin(angle));
@@ -48,7 +44,7 @@ public class Pendulum {
 		else
 			accelerationVector.setAngle(angle);
 		
-		angularAcceleration = -(airRessistence * angularVelocity) -(gravity * Math.sin(angle));
+		angularAcceleration = -(airResistance * angularVelocity) -(gravity * Math.sin(angle));
 		angularVelocity += angularAcceleration * timeStep;
 		wireVector.setAngle(wireVector.getAngle() + (angularVelocity * timeStep));
 		
@@ -57,11 +53,32 @@ public class Pendulum {
 			velocityVector.setAngle(wireVector.getAngle() - (Math.PI / 2.0));
 		else
 			velocityVector.setAngle(angle);
+		
+//		System.out.println("------");
+//		System.out.println(angularAcceleration);
+//		System.out.println(angularVelocity);
+//		System.out.println(angle);
 	}
+	
+	public void reset() {
+		wireVector.setAngle(((3.0 * Math.PI) / 2.0) + initialAngle);
+		angularVelocity = initialVelocity;
+	}
+	
+	public double getInitialAngle() { return initialAngle; }
+	public void setInitialAngle(double initialAngle) { this.initialAngle = initialAngle; }
+
+	public double getInitialVelocity() { return initialVelocity; }
+	public void setInitialVelocity(double initialVelocity) { this.initialVelocity = initialVelocity; }
+
+	public double getAngle() { return angle; }
 	
 	public double getGravity() { return gravity; }
 	public void setGravity(double gravity) { this.gravity = gravity; }
 
+	public double getAirResistence() { return airResistance; }
+	public void setAirResistance(double airResistence) { this.airResistance = airResistence; }
+	
 	public Vector getWireVector() { return wireVector; }
 	public Vector getAccelerationVector() { return accelerationVector; }
 	public Vector getVelocityVector() { return velocityVector; }
@@ -75,48 +92,11 @@ public class Pendulum {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Pendulum pendulum = new Pendulum();
+		pendulum.setGravity(5);
 		
-		class TestPanel extends JPanel {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
+		PendulumRenderer renderer = new PendulumRenderer(pendulum);
 				
-				Graphics2D g2d = (Graphics2D) g;
-				
-				//Wire
-				Vector wireVector = pendulum.getWireVector();
-				
-				wireVector.getRenderer().setX(220);
-				wireVector.getRenderer().setY(200);
-				wireVector.getRenderer().renderLine(g2d, 200, 1);
-				
-				//Mass
-				g.setColor(Color.GREEN);
-				int ovalLength = 40;
-				g.fillOval(pendulum.getWireVector().getRenderer().getEndX() - (ovalLength / 2), 
-						         pendulum.getWireVector().getRenderer().getEndY() - (ovalLength / 2), 
-						         ovalLength, ovalLength);
-				
-				//Acceleration Vector
-				g.setColor(Color.RED);
-				Vector accelerationVector = pendulum.getAccelerationVector();
-				accelerationVector.getRenderer().setX(wireVector.getRenderer().getEndX());
-				accelerationVector.getRenderer().setY(wireVector.getRenderer().getEndY());
-				accelerationVector.getRenderer().renderArrow(g2d, 50, pendulum.getGravity());
-				
-				//Velocity Vector
-				g.setColor(Color.BLUE);
-				Vector veclocityVector = pendulum.getVelocityVector();
-				veclocityVector.getRenderer().setX(wireVector.getRenderer().getEndX());
-				veclocityVector.getRenderer().setY(wireVector.getRenderer().getEndY());
-				veclocityVector.getRenderer().renderArrow(g2d, 50, pendulum.getGravity());
-			}
-		}
-		
-		TestPanel testPanel = new TestPanel();
-		frame.add(testPanel);
+		frame.add(renderer);
 		
 		frame.setVisible(true);
 		
@@ -124,7 +104,7 @@ public class Pendulum {
 		while(true) {
 			if(System.currentTimeMillis() > lastTime + 16) {
 				pendulum.update((System.currentTimeMillis() - lastTime) / 1000.0);
-				testPanel.repaint();
+				renderer.repaint();
 				
 				lastTime = System.currentTimeMillis();
 			}

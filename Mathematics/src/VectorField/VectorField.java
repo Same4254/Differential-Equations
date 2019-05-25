@@ -19,6 +19,8 @@ public class VectorField extends JPanel {
 	private int maxPixelMagnitude;
 	private double maxMagnitude;
 	
+	private Function<Vector, Void> updateFunction;
+	
 	/**
 	 * The Vector Field is exactly what it sounds like: A Field of Vectors. 
 	 * 
@@ -48,6 +50,7 @@ public class VectorField extends JPanel {
 				super.componentResized(e);
 				
 				updateVectorArray();
+				repaint();
 			}
 		});
 	}
@@ -69,6 +72,9 @@ public class VectorField extends JPanel {
 			v.getRenderer().setX(maxPixelMagnitude + (2 * maxPixelMagnitude * j));
 			v.getRenderer().setY(maxPixelMagnitude + (2 * maxPixelMagnitude * i));
 			
+			if(updateFunction != null)
+				updateFunction.apply(v);
+			
 			vectors[i][j] = v;
 		}}
 	}
@@ -82,6 +88,20 @@ public class VectorField extends JPanel {
 		for(Vector[] vectors : this.vectors)
 		for(Vector vector : vectors)
 			evaluation.apply(vector);
+	}
+	
+	/**
+	 * This update function will update all the vectors on the screen and apply the evaluation function to all of them
+	 * 
+	 * @param evaluation -> Function to evaluate each vector upon
+	 */
+	public void update() {
+		if(updateFunction == null)
+			return;
+		
+		for(Vector[] vectors : this.vectors)
+		for(Vector vector : vectors)
+			updateFunction.apply(vector);
 	}
 	
 	public void render(Graphics2D g2d) {
@@ -103,6 +123,10 @@ public class VectorField extends JPanel {
 	
 	public double getMaxMagnitude() { return maxMagnitude; }
 	public void setMaxMagnitude(double maxMagnitude) { this.maxMagnitude = maxMagnitude; updateVectorArray(); }
+	
+	public void setUpdateFunction(Function<Vector, Void> updateFunction) {
+		this.updateFunction = updateFunction;
+	}
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
