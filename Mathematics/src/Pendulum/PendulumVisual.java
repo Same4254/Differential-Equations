@@ -80,14 +80,6 @@ public class PendulumVisual extends JLayeredPane {
 		});
 	}
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		pendulumRenderer.repaint();
-		tracePanel.repaint();
-	}
-	
 	public void update(double timeStep) {
 		pendulum.update(timeStep);
 		
@@ -144,6 +136,12 @@ public class PendulumVisual extends JLayeredPane {
 				visual.repaint();
 				
 				lastTime = System.currentTimeMillis();
+				
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
