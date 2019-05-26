@@ -38,10 +38,10 @@ public class VectorRenderer {
 	}
 
 	private void calculateEndX(int maxLength, double maxMagnitude) { 
-		this.endX = (int) (x + (Math.cos(vector.getAngle()) * (maxLength * (vector.getMagnitude() / maxMagnitude)))); 
+		this.endX = (int) (x + (Math.cos(vector.getAngle()) * (maxLength * Math.min((vector.getMagnitude() / maxMagnitude), 1)))); 
 	}
 	private void calculateEndY(int maxLength, double maxMagnitude) { 
-		this.endY = (int) (y - (Math.sin(vector.getAngle()) * (maxLength * (vector.getMagnitude() / maxMagnitude)))); 
+		this.endY = (int) (y - (Math.sin(vector.getAngle()) * (maxLength * Math.min((vector.getMagnitude() / maxMagnitude), 1)))); 
 	}
 	
 	public int getX() { return x; }

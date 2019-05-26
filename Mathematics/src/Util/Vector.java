@@ -51,8 +51,11 @@ public class Vector {
 	}
 	
 	public void setAngle(double angle) {
-		if(angle < 0) 
-			angle += 2 * Math.PI;
+//		if(angle < 0) 
+//			angle += 2.0 * Math.PI;
+//		if(angle > 2.0 * Math.PI)
+//			angle -= 2.0 * Math.PI;
+		
 		this.angle = angle;
 		
 		this.xComp = magnitude * Math.cos(angle);
@@ -63,6 +66,9 @@ public class Vector {
 		this.magnitude = Math.abs(magnitude);
 		this.xComp = magnitude * Math.cos(angle);
 		this.yComp = magnitude * Math.sin(angle);
+		
+		if(magnitude < 0)
+			setAngle(angle - Math.PI);
 	}
 	
 	public double getMagnitude() { return magnitude; }

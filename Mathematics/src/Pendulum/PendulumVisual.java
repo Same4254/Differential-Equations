@@ -33,9 +33,9 @@ public class PendulumVisual extends JLayeredPane {
 		pendulum = new Pendulum();
 		pendulum.setGravity(5);
 		
-		pendulum.setInitialAngle(Math.PI / 2);
-		pendulum.setInitialVelocity(5);
-		pendulum.setAirResistance(.5);
+		pendulum.setInitialAngle(Math.PI - .02);
+		pendulum.setInitialVelocity(4);
+		pendulum.setAirResistance(0.1);
 		pendulum.reset();
 		
 		pendulumRenderer = new PendulumRenderer(pendulum);
@@ -112,6 +112,34 @@ public class PendulumVisual extends JLayeredPane {
 				
 				g2d.drawLine(lastPixelPoint.x, lastPixelPoint.y, currentPixelPoint.x, currentPixelPoint.y);
 			}
+			
+			Point lastPixelPoint = graph.coordsToPixel(points.get(points.size() - 1));
+			int boundX = (int) (getWidth() * 0.05);
+			int boundY = (int) (getHeight() * 0.05);
+			
+			if(lastPixelPoint.x < boundX) {
+				double shift = (boundX - lastPixelPoint.x) / graph.getScaleX();
+				graph.setHorizontalConstraints(graph.getMinX() - shift, graph.getMaxX() - shift);
+				
+				vectorField.update();
+			} else if(lastPixelPoint.x > getWidth() - boundX) {
+				double shift = (lastPixelPoint.x - (getWidth() - boundX)) / graph.getScaleX();
+				graph.setHorizontalConstraints(graph.getMinX() + shift, graph.getMaxX() + shift);
+				
+				vectorField.update();
+			}
+			
+			if(lastPixelPoint.y < boundY) {
+				double shift = (boundY - lastPixelPoint.y) / graph.getScaleY();
+				graph.setVerticalConstraints(graph.getMinY() + shift, graph.getMaxY() + shift);
+				
+				vectorField.update();
+			} else if(lastPixelPoint.y > getHeight() - boundY) {
+				double shift = (lastPixelPoint.y - (getHeight() - boundY)) / graph.getScaleY();
+				graph.setVerticalConstraints(graph.getMinY() - shift, graph.getMaxY() - shift);
+				
+				vectorField.update();
+			}
 		}
 
 		public ArrayList<Point2D.Double> getPoints() { return points; }
@@ -120,9 +148,9 @@ public class PendulumVisual extends JLayeredPane {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setLocation(-1920, 0);
-//		frame.setSize(1920, 1080);
-		frame.setSize(500, 500);
+		frame.setLocation(-1920, 0);
+		frame.setSize(1920, 1080);
+//		frame.setSize(500, 500);
 		
 		PendulumVisual visual = new PendulumVisual();
 		

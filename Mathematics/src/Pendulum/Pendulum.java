@@ -36,15 +36,25 @@ public class Pendulum {
 		 */
 		
 		angle = wireVector.getAngle() - ((3.0 * Math.PI) / 2.0);
+
+//		System.out.println(((wireVector.getAngle() % (2 * Math.PI)) * (2.0 * Math.PI)));
+//		System.out.println(((wireVector.getAngle() % (2 * Math.PI))));
 		
 		//Update 
-		accelerationVector.setMagnitude(gravity * Math.sin(angle));
-		if(angle > 0)
+//		accelerationVector.setMagnitude(gravity * Math.sin(angle));
+//		if((wireVector.getAngle() % (2 * Math.PI)) - (((3.0 * Math.PI) / 2.0)) > 0)
+//			accelerationVector.setAngle(wireVector.getAngle() - (Math.PI / 2.0));
+//		else
+//			accelerationVector.setAngle(angle);
+		
+		
+		angularAcceleration = -(airResistance * angularVelocity) -(gravity * Math.sin(angle));
+		accelerationVector.setMagnitude(angularAcceleration);
+		if(angularAcceleration < 0)
 			accelerationVector.setAngle(wireVector.getAngle() - (Math.PI / 2.0));
 		else
 			accelerationVector.setAngle(angle);
 		
-		angularAcceleration = -(airResistance * angularVelocity) -(gravity * Math.sin(angle));
 		angularVelocity += angularAcceleration * timeStep;
 		wireVector.setAngle(wireVector.getAngle() + (angularVelocity * timeStep));
 		
@@ -93,6 +103,10 @@ public class Pendulum {
 		
 		Pendulum pendulum = new Pendulum();
 		pendulum.setGravity(5);
+		pendulum.setInitialVelocity(-.5);
+		pendulum.setAirResistance(0);
+		pendulum.setInitialAngle(Math.PI - .1);
+		pendulum.reset();
 		
 		PendulumRenderer renderer = new PendulumRenderer(pendulum);
 				

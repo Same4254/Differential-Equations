@@ -188,6 +188,9 @@ public class FixedGraph extends JPanel {
 		repaint();
 	}
 	
+	public double getScaleX() { return scaleX; }
+	public double getScaleY() { return scaleY; }
+
 	public void setTickInterval(double tickInterval) { this.tickInterval = tickInterval; }
 
 	public static void main(String[] args) {
