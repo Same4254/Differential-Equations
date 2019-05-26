@@ -28,20 +28,6 @@ public class FixedGraph extends JPanel {
 	
 	public FixedGraph() {
 		functions = new ArrayList<>(); 
-		
-//		addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				super.mouseReleased(e);
-//				
-//				System.out.println("---------");
-//				
-//				Point2D.Double coords = pixelToCoords(e.getPoint());
-//				System.out.println("Coordinates: " + coords);
-//				System.out.println("Pixels: " + coordsToPixel(coords));
-//				System.out.println("Mouse: " + e.getPoint());
-//			}
-//		});
 	}
 
 	private void calculateScale() { 

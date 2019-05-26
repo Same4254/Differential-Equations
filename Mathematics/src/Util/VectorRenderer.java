@@ -1,6 +1,7 @@
 package Util;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class VectorRenderer {
 	private Vector vector;
@@ -14,6 +15,8 @@ public class VectorRenderer {
 	
 	public void renderArrow(Graphics2D g2d, int maxLength, double maxMagnitude) {
 		g2d.setStroke(new BasicStroke(2));
+		
+		maxMagnitude = Math.abs(maxMagnitude);
 		
 		calculateEndX(maxLength, maxMagnitude);
 		calculateEndY(maxLength, maxMagnitude);
@@ -42,6 +45,13 @@ public class VectorRenderer {
 	}
 	private void calculateEndY(int maxLength, double maxMagnitude) { 
 		this.endY = (int) (y - (Math.sin(vector.getAngle()) * (maxLength * Math.min((vector.getMagnitude() / maxMagnitude), 1)))); 
+	}
+	
+	public void setLocation(Point point) { setLocation(point.x, point.y); }
+	
+	public void setLocation(int x, int y) {
+		setX(x);
+		setY(y);
 	}
 	
 	public int getX() { return x; }

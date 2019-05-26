@@ -31,6 +31,7 @@ public class Vector {
 		calculateAngle();
 	}
 	
+	public double getXComp() { return xComp; }
 	public void setXComp(double xComp) {
 		this.xComp = xComp;
 		
@@ -38,6 +39,7 @@ public class Vector {
 		calculateAngle();
 	}
 	
+	public double getYComp() { return yComp; }
 	public void setYComp(double yComp) {
 		this.yComp = yComp;
 		
@@ -112,23 +114,24 @@ public class Vector {
 		
 		TestPanel testPanel = new TestPanel();
 		
-		Thread thread = new Thread(() -> {
-			long start = System.currentTimeMillis();
-			double theta = 0;
-			vector.setMagnitude(2);
-			while(true) {
-				if(System.currentTimeMillis() - start >= 16) {
+//		Thread thread = new Thread(() -> {
+//			long start = System.currentTimeMillis();
+//			double theta = 0;
+//			vector.setMagnitude(2);
+//			while(true) {
+//				if(System.currentTimeMillis() - start >= 16) {
 //					vector.setComponents(Math.cos(theta), Math.sin(theta));
-					vector.setAngle(theta);
+					vector.setAngle(2);
+					vector.setMagnitude(0.4161468365471424);
 					testPanel.repaint();
-					theta += .01;
-					
-					start = System.currentTimeMillis();
-				}
-			}
-		});
+//					theta += .01;
+//					
+//					start = System.currentTimeMillis();
+//				}
+//			}
+//		});
 		
-		thread.start();
+//		thread.start();
 		
 		frame.add(testPanel);
 		
