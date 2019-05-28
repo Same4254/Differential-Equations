@@ -31,6 +31,24 @@ public class VectorRenderer {
 								 (int) (endY + ((renderMagnitude * .2) * Math.sin(vector.getAngle() + (Math.PI / 4)))));
 	}
 	
+	public void renderArrow(Graphics2D g2d, int startX, int startY, int endX, int endY) {
+		g2d.setStroke(new BasicStroke(2));
+
+		this.x = startX;
+		this.y = startY;
+		this.endX = endX;
+		this.endY = endY;
+		
+		int renderMagnitude = (int) Math.sqrt(Math.pow(endX - x, 2) + Math.pow(endY - y, 2));
+		
+		g2d.drawLine(x, y, endX, endY);
+		g2d.drawLine(endX, endY, (int) (endX - ((renderMagnitude * .2) * Math.cos(vector.getAngle() - (Math.PI / 4)))), 
+				 				 (int) (endY + ((renderMagnitude * .2) * Math.sin(vector.getAngle() - (Math.PI / 4)))));
+		
+		g2d.drawLine(endX, endY, (int) (endX - ((renderMagnitude * .2) * Math.cos(vector.getAngle() + (Math.PI / 4)))), 
+								 (int) (endY + ((renderMagnitude * .2) * Math.sin(vector.getAngle() + (Math.PI / 4)))));
+	}
+	
 	public void renderLine(Graphics2D g2d, int maxLength, double maxMagnitude) {
 		g2d.setStroke(new BasicStroke(2));
 		

@@ -34,8 +34,8 @@ public class PendulumVisual extends JLayeredPane {
 		pendulum.setGravity(5);
 		
 		pendulum.setInitialAngle(Math.PI - .02);
-		pendulum.setInitialVelocity(4);
-		pendulum.setAirResistance(0.1);
+		pendulum.setInitialVelocity(5);
+		pendulum.setAirResistance(0.5);
 		pendulum.reset();
 		
 		pendulumRenderer = new PendulumRenderer(pendulum);

@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -32,7 +33,7 @@ public class PolarVisual extends JPanel {
 	private double x;
 	
 	public PolarVisual() {
-		euclideanFunction = x -> { return Math.sqrt(x); };
+		euclideanFunction = x -> { return Math.cos(2.0 * x); };
 		
 		euclideanGraph = new FixedGraph();
 		euclideanGraph.setConstraints(-1, 7, -1.5, 1.5);
@@ -115,7 +116,7 @@ public class PolarVisual extends JPanel {
 	class PolarTrace extends JPanel {
 		private static final long serialVersionUID = 1L;
 
-		private ArrayList<Point> points;
+		private ArrayList<Point2D.Double> points;
 		private Vector vector;
 		
 		public PolarTrace() {
@@ -135,25 +136,22 @@ public class PolarVisual extends JPanel {
 			vector.setAngle(x);
 			vector.setMagnitude(radius);
 			
-			System.out.println(vector.getMagnitude());
-			System.out.println(vector.getAngle());
-			
-			vector.getRenderer().renderArrow(g2d, (int) Math.sqrt(Math.pow(vector.getXComp() * polarGraph.getScaleX(), 2) + 
-																  Math.pow(vector.getYComp() * polarGraph.getScaleY(), 2)), radius);
-			
-			points.add(new Point(vector.getRenderer().getEndX(), vector.getRenderer().getEndY()));
+			points.add(new Point2D.Double(vector.getXComp(), vector.getYComp()));
 			
 			//****** Shape
 			g2d.setColor(Color.RED);
-			if(points.size() < 2)
-				return;
-			
-			for(int i = 1; i < points.size(); i++) {
-				Point lastPixelPoint = points.get(i - 1);
-				Point currentPixelPoint = points.get(i);
-				
-				g2d.drawLine(lastPixelPoint.x, lastPixelPoint.y, currentPixelPoint.x, currentPixelPoint.y);
+			if(points.size() >= 2) {
+				for(int i = 1; i < points.size(); i++) {
+					Point lastPixelPoint = polarGraph.coordsToPixel(points.get(i - 1));
+					Point currentPixelPoint = polarGraph.coordsToPixel(points.get(i));
+					
+					g2d.drawLine(lastPixelPoint.x, lastPixelPoint.y, currentPixelPoint.x, currentPixelPoint.y);
+				}
 			}
+
+			g2d.setColor(Color.BLACK);
+			Point lastPixelLocation = polarGraph.coordsToPixel(points.get(points.size() - 1));
+			vector.getRenderer().renderArrow(g2d, vector.getRenderer().getX(), vector.getRenderer().getY(), lastPixelLocation.x, lastPixelLocation.y);
 		}
 	}
 	
