@@ -80,8 +80,8 @@ public class Vector {
 	private void calculateAngle() { 
 		this.angle = Math.atan2(yComp, xComp);
 		
-		if(this.angle < 0) 
-			this.angle += 2.0 * Math.PI;
+//		if(this.angle < 0) 
+//			this.angle += 2.0 * Math.PI;
 	}
 	
 	public VectorRenderer getRenderer() { return renderer; }
