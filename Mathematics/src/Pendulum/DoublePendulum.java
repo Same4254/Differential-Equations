@@ -84,8 +84,20 @@ public class DoublePendulum {
 	public double getLength1() { return length1; }
 	public double getLength2() { return length2; }
 	public double getGravity() { return gravity; }
-	public double getAirResistance() { return airResistance; }
+	public double getAirResistence() { return airResistance; }
+	
+	public void setMass1(double mass1) { this.mass1 = mass1; }
+	public void setMass2(double mass2) { this.mass2 = mass2; }
 
+	public void setGravity(double gravity) { this.gravity = gravity; }
+	public void setAirResistance(double airResistance) { this.airResistance = airResistance; }
+
+	public void setInitialAngle1(double angle1) { wireVector1.setAngle(((3.0 * Math.PI) / 2.0) + angle1); }
+	public void setInitialAngle2(double angle2) { wireVector2.setAngle(((3.0 * Math.PI) / 2.0) + angle2); }
+	
+	public void setInitialVelocity1(double initialAngularVelocity1) { angularVelocity1 = initialAngularVelocity1; }
+	public void setInitialVelocity2(double initialAngularVelocity2) { angularVelocity2 = initialAngularVelocity2; }
+	
 	public Vector getWireVector1() { return wireVector1; }
 	public Vector getWireVector2() { return wireVector2; }
 } 
