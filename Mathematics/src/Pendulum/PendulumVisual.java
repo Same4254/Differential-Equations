@@ -28,6 +28,7 @@ public class PendulumVisual extends JLayeredPane {
 	private VectorField vectorField;
 	private PendulumRenderer pendulumRenderer;
 	private TracePanel tracePanel;
+	private PendulumEditor pendulumEditor;
 	
 	public PendulumVisual() {
 		pendulum = new Pendulum();
@@ -48,6 +49,8 @@ public class PendulumVisual extends JLayeredPane {
 		tracePanel = new TracePanel();
 		tracePanel.setOpaque(false);
 		
+		pendulumEditor = new PendulumEditor(this);
+		
 		vectorField = new VectorField(20, 6);
 		vectorField.setUpdateFunction(vector -> {
 			Point2D.Double info = graph.pixelToCoords(vector.getRenderer().getX(), vector.getRenderer().getY());
@@ -66,6 +69,7 @@ public class PendulumVisual extends JLayeredPane {
 		add(vectorField, new Integer(1));
 		add(tracePanel, new Integer(2));
 		add(pendulumRenderer, new Integer(3));
+		add(pendulumEditor, new Integer(4));
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -76,6 +80,9 @@ public class PendulumVisual extends JLayeredPane {
 				tracePanel.setSize(getSize());
 				vectorField.setSize(getSize());
 				pendulumRenderer.setSize(new Dimension(getWidth() / 4, getHeight() / 4));
+				
+				pendulumEditor.setSize(new Dimension(getWidth() / 5, getHeight() / 6));
+				pendulumEditor.setLocation(getWidth() - pendulumEditor.getWidth(), 0);
 			}
 		});
 	}
@@ -145,6 +152,13 @@ public class PendulumVisual extends JLayeredPane {
 		public ArrayList<Point2D.Double> getPoints() { return points; }
 	}
 	
+	public Pendulum getPendulum() { return pendulum; }
+	public FixedGraph getGraph() { return graph; }
+	public VectorField getVectorField() { return vectorField; }
+	public PendulumRenderer getPendulumRenderer() { return pendulumRenderer; }
+	public TracePanel getTracePanel() { return tracePanel; }
+	public PendulumEditor getPendulumEditor() { return pendulumEditor; }
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
