@@ -81,7 +81,8 @@ public class PendulumVisual extends JLayeredPane {
 				vectorField.setSize(getSize());
 				pendulumRenderer.setSize(new Dimension(getWidth() / 4, getHeight() / 4));
 				
-				pendulumEditor.setSize(new Dimension(getWidth() / 5, getHeight() / 6));
+//				pendulumEditor.setSize(new Dimension(getWidth() / 5, getHeight() / 6));
+				pendulumEditor.setSize(new Dimension(150, 110));
 				pendulumEditor.setLocation(getWidth() - pendulumEditor.getWidth(), 0);
 			}
 		});
@@ -162,9 +163,9 @@ public class PendulumVisual extends JLayeredPane {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocation(-1920, 0);
-		frame.setSize(1920, 1080);
-//		frame.setSize(500, 500);
+//		frame.setLocation(-1920, 0);
+//		frame.setSize(1920, 1080);
+		frame.setSize(800, 800);
 		
 		PendulumVisual visual = new PendulumVisual();
 		

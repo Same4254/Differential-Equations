@@ -12,8 +12,8 @@ public class DoublePendulum {
 	private double gravity, airResistance;
 	
 	private Vector wireVector1, wireVector2;
-	private Vector velocityVector1, velocityVector2;
-	private Vector accelerationVector1, accelerationVector2;
+//	private Vector velocityVector1, velocityVector2;
+//	private Vector accelerationVector1, accelerationVector2;
 	
 	public DoublePendulum() {
 		wireVector1 = new Vector(1, 0);
@@ -22,11 +22,11 @@ public class DoublePendulum {
 		wireVector2 = new Vector(1, 0);
 //		wireVector2.setAngle(Math.toRadians(200));
 		
-		velocityVector1 = new Vector(0, 0);
-		velocityVector2 = new Vector(0, 0);
-		
-		accelerationVector1 = new Vector(0, 0);
-		accelerationVector2 = new Vector(0, 0);
+//		velocityVector1 = new Vector(0, 0);
+//		velocityVector2 = new Vector(0, 0);
+//		
+//		accelerationVector1 = new Vector(0, 0);
+//		accelerationVector2 = new Vector(0, 0);
 		
 		length1 = wireVector1.getMagnitude();
 		length2 = wireVector2.getMagnitude();
@@ -36,7 +36,7 @@ public class DoublePendulum {
 		
 		gravity = 9.8;
 		
-		airResistance = .5;
+		airResistance = .1;
 	}
 	
 	public void update(double timeStep) {
