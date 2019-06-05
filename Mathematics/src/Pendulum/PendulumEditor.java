@@ -17,15 +17,16 @@ public class PendulumEditor extends JPanel {
 	private JTextField angleField;
 	private JTextField airResistenceField;
 	private JTextField gravityField;
+	private JTextField initialVelocityField;
 	
 	public PendulumEditor(PendulumVisual pendulumVisual) {
 		setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout); 
 		
 		JLabel airResistanceLabel = new JLabel("Air Resistence");
@@ -85,14 +86,40 @@ public class PendulumEditor extends JPanel {
 		add(angleField, gbc_angleField);
 		angleField.setColumns(10);
 		
-		JButton btnReset = new JButton("Reset");
-		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLabel velocityLabel = new JLabel("Initial Velocity");
+		velocityLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_velocityLabel = new GridBagConstraints();
+		gbc_velocityLabel.anchor = GridBagConstraints.EAST;
+		gbc_velocityLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_velocityLabel.gridx = 1;
+		gbc_velocityLabel.gridy = 3;
+		add(velocityLabel, gbc_velocityLabel);
+		
+		initialVelocityField = new JTextField();
+		GridBagConstraints gbc_initialVelocityField = new GridBagConstraints();
+		gbc_initialVelocityField.insets = new Insets(0, 0, 5, 0);
+		gbc_initialVelocityField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_initialVelocityField.gridx = 2;
+		gbc_initialVelocityField.gridy = 3;
+		add(initialVelocityField, gbc_initialVelocityField);
+		initialVelocityField.setColumns(10);
+		
+		JButton resetButton = new JButton("Reset");
+		resetButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnReset = new GridBagConstraints();
 		gbc_btnReset.anchor = GridBagConstraints.WEST;
 		gbc_btnReset.insets = new Insets(0, 0, 0, 5);
 		gbc_btnReset.gridx = 1;
-		gbc_btnReset.gridy = 3;
-		add(btnReset, gbc_btnReset);
+		gbc_btnReset.gridy = 4;
+		add(resetButton, gbc_btnReset);
 		
+		resetButton.addActionListener(e -> {
+			pendulumVisual.reset();
+		});
 	}
+
+	public JTextField getInitialVelocityField() { return initialVelocityField; }
+	public JTextField getAngleField() { return angleField; }
+	public JTextField getAirResistenceField() { return airResistenceField; }
+	public JTextField getGravityField() { return gravityField; }
 }

@@ -35,9 +35,8 @@ public class PendulumVisual extends JLayeredPane {
 		pendulum.setGravity(5);
 		
 		pendulum.setInitialAngle(Math.PI - .02);
-		pendulum.setInitialVelocity(5);
+		pendulum.setInitialVelocity(10);
 		pendulum.setAirResistance(0.5);
-		pendulum.reset();
 		
 		pendulumRenderer = new PendulumRenderer(pendulum);
 		pendulumRenderer.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -82,10 +81,56 @@ public class PendulumVisual extends JLayeredPane {
 				pendulumRenderer.setSize(new Dimension(getWidth() / 4, getHeight() / 4));
 				
 //				pendulumEditor.setSize(new Dimension(getWidth() / 5, getHeight() / 6));
-				pendulumEditor.setSize(new Dimension(150, 110));
+				pendulumEditor.setSize(new Dimension(150, 140));
 				pendulumEditor.setLocation(getWidth() - pendulumEditor.getWidth(), 0);
 			}
 		});
+		
+		pendulumEditor.getAngleField().setText(Double.toString(Math.toDegrees(Math.PI - .02)));
+		pendulumEditor.getInitialVelocityField().setText("10");
+		pendulumEditor.getGravityField().setText("5");
+		pendulumEditor.getAirResistenceField().setText("0.5");
+		
+		reset();
+	}
+	
+	public void reset() {
+		double airRes = pendulum.getAirResistence();
+		
+		try {
+			airRes = Double.parseDouble(pendulumEditor.getAirResistenceField().getText());
+		} catch(NumberFormatException e) { return; }
+
+		double gravity = pendulum.getGravity();
+		
+		try {
+			gravity = Double.parseDouble(pendulumEditor.getGravityField().getText());
+		} catch(NumberFormatException e) { return; }
+		
+		double initialAngle = pendulum.getInitialAngle();
+		
+		try {
+			initialAngle = Math.toRadians(Double.parseDouble(pendulumEditor.getAngleField().getText()));
+		} catch(NumberFormatException e) { return; }
+		
+		double initialVelocity = pendulum.getInitialVelocity();
+		
+		try {
+			initialVelocity = Double.parseDouble(pendulumEditor.getInitialVelocityField().getText());
+		} catch(NumberFormatException e) { return; }
+		
+		vectorField.update();
+		vectorField.repaint();
+		
+		pendulum.setAirResistance(airRes);
+		pendulum.setGravity(gravity);
+		pendulum.setInitialAngle(initialAngle);
+		pendulum.setInitialVelocity(initialVelocity);
+		
+		pendulum.reset();
+		tracePanel.points.clear();
+		
+		repaint();
 	}
 	
 	public void update(double timeStep) {
