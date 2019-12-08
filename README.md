@@ -12,6 +12,10 @@ Here, the phase-space of the pendulum is show with a vector field. On the x-axis
 
 A simple animation that shows the fourier series rotating and moving to build a square wave. It also shows how at large values of n (the amount of terms) the more accurate the drawing becomes
 
+![](/Fourier.PNG)
+
 ## Polar Equations
 
 This animation is a simple visual on one interpretation on how polar equations relate to cartesian equations
+
+![](/Polar.PNG)
