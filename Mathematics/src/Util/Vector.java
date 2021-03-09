@@ -15,6 +15,24 @@ public class Vector {
 		this.renderer = new VectorRenderer(this);
 	}
 	
+	/**
+	 * Creates a direction vector from the fist point in the direction of the second point
+	 */
+	public Vector(int x1, int y1, int x2, int y2) {
+		this();
+		
+		xComp = x2 - x1;
+		yComp = y2 - y1;
+		
+		calculateMagnitude();
+		
+		xComp /= magnitude;
+		yComp /= magnitude;
+		
+		magnitude = 1;
+		calculateAngle();
+	}
+	
 	public Vector(double xComp, double yComp) {
 		this();
 		this.xComp = xComp;
@@ -52,6 +70,10 @@ public class Vector {
 						  this.yComp + other.yComp);
 	}
 	
+	public void mAdd(Vector other) {
+		setComponents(xComp + other.xComp, yComp + other.yComp);
+	}
+	
 	public void setAngle(double angle) {
 //		if(angle < 0) 
 //			angle += 2.0 * Math.PI;
@@ -75,6 +97,14 @@ public class Vector {
 	
 	public double getMagnitude() { return magnitude; }
 	private void calculateMagnitude() { this.magnitude = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2)); }
+	
+	public void mScale(double scalar) {
+		setMagnitude(magnitude * scalar);
+	}
+	
+	public Vector scale(double scalar) {
+		return new Vector(xComp * scalar, yComp * scalar);
+	}
 	
 	public double getAngle() { return angle; }
 	private void calculateAngle() { 
