@@ -17,6 +17,8 @@ public class HockeyEnvironment extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<StationaryCharge> stationaryCharges;
+	private ArrayList<Wall> walls;
+	
 	private MovingCharge movingCharge;
 	
 	private VectorField electricField;
@@ -24,6 +26,8 @@ public class HockeyEnvironment extends JLayeredPane {
 	
 	public HockeyEnvironment() {
 		this.stationaryCharges = new ArrayList<StationaryCharge>();
+		this.walls = new ArrayList<Wall>();
+		
 		this.movingCharge = new MovingCharge(this);
 		
 		electricField = new VectorField(10, 0.01);
@@ -47,8 +51,8 @@ public class HockeyEnvironment extends JLayeredPane {
 		
 		chargePanel.setOpaque(false);
 		
-		add(chargePanel, new Integer(0));
-		add(electricField);
+		add(chargePanel, new Integer(1));
+		add(electricField, new Integer(0));
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -66,6 +70,7 @@ public class HockeyEnvironment extends JLayeredPane {
 	}
 	
 	public ArrayList<StationaryCharge> getStationaryCharges() { return stationaryCharges; }
+	public ArrayList<Wall> getWalls() { return walls; }
 	public MovingCharge getMovingCharge() { return movingCharge; }
 	
 	private class ChargePanel extends JPanel {
@@ -81,6 +86,9 @@ public class HockeyEnvironment extends JLayeredPane {
 				c.render(g2d);
 			
 			movingCharge.render(g2d);
+			
+			for(Wall w : walls)
+				w.render(g2d);
 		}
 	}
 	
@@ -92,12 +100,13 @@ public class HockeyEnvironment extends JLayeredPane {
 		HockeyEnvironment h = new HockeyEnvironment();
 		
 		h.stationaryCharges.add(new StationaryCharge(200, 200, -100));
-		h.stationaryCharges.add(new StationaryCharge(200, 300, -100));
 		
 		h.movingCharge = new MovingCharge(h);
 		h.movingCharge.setCharge(1000);
-		h.movingCharge.setPosition(150, 250);
-		h.movingCharge.setVelocity(20, 0);
+		h.movingCharge.setPosition(200, 400);
+//		h.movingCharge.setVelocity(20, 0);
+		
+		h.walls.add(new Wall(150, 300, 100, 10));
 		
 		frame.add(h);
 		

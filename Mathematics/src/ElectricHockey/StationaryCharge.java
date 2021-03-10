@@ -23,7 +23,7 @@ public class StationaryCharge {
 		else 
 			g2d.setColor(Color.RED);
 		
-		g2d.fillOval(x, y, Constants.CHARGE_RADIUS, Constants.CHARGE_RADIUS);
+		g2d.fillOval(x - Constants.CHARGE_RADIUS, y - Constants.CHARGE_RADIUS, 2 * Constants.CHARGE_RADIUS, 2 * Constants.CHARGE_RADIUS);
 	}
 	
 	public int getX() { return x; }

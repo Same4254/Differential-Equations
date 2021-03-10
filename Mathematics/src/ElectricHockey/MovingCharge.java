@@ -20,7 +20,7 @@ public class MovingCharge {
 		acceleration = new Vector();
 	}
 	
-	public void update(double delta) {
+	private void updateMovement(double delta) {
 		Vector forceVector = new Vector();
 		
 		for(StationaryCharge c : environment.getStationaryCharges()) {
@@ -43,6 +43,39 @@ public class MovingCharge {
 		y += velocity.getYComp() * delta;
 	}
 	
+	private void checkRespondWallCollision(Wall wall) {
+		if(y > wall.getY() && y < wall.getY() + wall.getHeight()) {
+			if(x + Constants.CHARGE_RADIUS > wall.getX() && x + Constants.CHARGE_RADIUS < wall.getX() + wall.getWidth()) {
+				velocity.setXComp(-velocity.getXComp());
+				return;
+			}
+			
+			if(x - Constants.CHARGE_RADIUS < wall.getX() + wall.getWidth() && x - Constants.CHARGE_RADIUS > wall.getX()) {
+				velocity.setXComp(-velocity.getXComp());
+				return;
+			}
+		}
+		
+		if(x > wall.getX() && x < wall.getX() + wall.getWidth()) {
+			if(y + Constants.CHARGE_RADIUS > wall.getY() && y + Constants.CHARGE_RADIUS < wall.getY() + wall.getHeight()) {
+				velocity.setYComp(-velocity.getYComp());
+				return;
+			}
+			
+			if(y - Constants.CHARGE_RADIUS < wall.getY() + wall.getHeight() && y - Constants.CHARGE_RADIUS > wall.getY()) {
+				velocity.setYComp(-velocity.getYComp());
+				return;
+			}
+		}
+	}
+	
+	public void update(double delta) {
+		updateMovement(delta);
+		
+		for(Wall w : environment.getWalls())
+			checkRespondWallCollision(w);
+	}
+	
 	public void render(Graphics2D g2d) {
 		if(charge == 0)
 			g2d.setColor(Color.GRAY);
@@ -51,7 +84,7 @@ public class MovingCharge {
 		else 
 			g2d.setColor(Color.RED);
 		
-		g2d.fillOval((int) x, (int) y, Constants.CHARGE_RADIUS, Constants.CHARGE_RADIUS);
+		g2d.fillOval((int) x - Constants.CHARGE_RADIUS, (int) y - Constants.CHARGE_RADIUS,  2 * Constants.CHARGE_RADIUS, 2 * Constants.CHARGE_RADIUS);
 	}
 	
 	public void setCharge(double charge) { this.charge = charge; }
