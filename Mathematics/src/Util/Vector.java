@@ -15,10 +15,7 @@ public class Vector {
 		this.renderer = new VectorRenderer(this);
 	}
 	
-	/**
-	 * Creates a direction vector from the fist point in the direction of the second point
-	 */
-	public Vector(int x1, int y1, int x2, int y2) {
+	public Vector(double x1, double y1, double x2, double y2) {
 		this();
 		
 		xComp = x2 - x1;
@@ -31,6 +28,13 @@ public class Vector {
 		
 		magnitude = 1;
 		calculateAngle();
+	}
+	
+	/**
+	 * Creates a direction vector from the fist point in the direction of the second point
+	 */
+	public Vector(int x1, int y1, int x2, int y2) {
+		this((double) x1, (double) y1, (double) x2, (double) y2);
 	}
 	
 	public Vector(double xComp, double yComp) {
